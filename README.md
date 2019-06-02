@@ -10,15 +10,14 @@ Audio samples are available on the [demo page](http://research.spa.aalto.fi/publ
 
 ### Installing
 
+These instructions are specific to a **LV2 build** realized by linuxmao.org.  
+If you are interested in VST, check the [original repository](https://github.com/damskaggep/WaveNetVA).
+
 * Clone the repo.
-* Download and install [JUCE](https://juce.com/)
-  * The software has been tested with Juce version 5.4.2
-* Download [Eigen](http://eigen.tuxfamily.org)
-  * Extract Eigen somewhere, e.g. your home directory.
-  * The software has been tested with Eigen version 3.3.7
-* Open WaveNetVA.jucer file with Projucer
-  * Add the Eigen folder to "Header Search Paths" in Exporters -> Debug/Release
-  * Open and build project in XCode or Visual Studio.
+* Install development packages. (TODO: indicate package list)
+* Open a terminal and visit the build directory: `cd Builds/LinuxMakefile`
+* Run the command: `make -f Makefile.LV2 CONFIG=Release`
+* Copy `build/WaveNetVA.lv2` into a LV2 path of your choice.
 
 ### Loading trained models
 
