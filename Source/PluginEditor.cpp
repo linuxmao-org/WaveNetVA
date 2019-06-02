@@ -26,14 +26,18 @@ WaveNetVaAudioProcessorEditor::WaveNetVaAudioProcessorEditor (WaveNetVaAudioProc
     preGainKnob.setValue(0.0);
     preGainKnob.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     preGainKnob.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow, false, 50, 20);
+#if (JUCE_MAJOR_VERSION > 5) || (JUCE_MAJOR_VERSION == 5 && JUCE_MINOR_VERSION > 1)
     preGainKnob.setNumDecimalPlacesToDisplay(1);
+#endif
     addAndMakeVisible(postGainKnob);
     postGainKnob.addListener(this);
     postGainKnob.setRange(-24.0, 24.0);
     postGainKnob.setValue(0.0);
     postGainKnob.setSliderStyle(juce::Slider::SliderStyle::RotaryVerticalDrag);
     postGainKnob.setTextBoxStyle(juce::Slider::TextEntryBoxPosition::TextBoxBelow, false, 50, 20 );
+#if (JUCE_MAJOR_VERSION > 5) || (JUCE_MAJOR_VERSION == 5 && JUCE_MINOR_VERSION > 1)
     postGainKnob.setNumDecimalPlacesToDisplay(1);
+#endif
     addAndMakeVisible(preGainLabel);
     preGainLabel.setText("Pre Gain", juce::NotificationType::dontSendNotification);
     preGainLabel.setJustificationType(juce::Justification::centred);

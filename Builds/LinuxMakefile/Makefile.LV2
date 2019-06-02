@@ -1,0 +1,44 @@
+######################################
+# Custom made makefile for LV2 build #
+######################################
+
+include Makefile
+
+JUCE_CFLAGS += -fPIC
+JUCE_CXXFLAGS += -fPIC
+
+all : LV2
+
+JUCE_CPPFLAGS_LV2_PLUGIN := -DJucePlugin_Build_LV2=1 -DJucePlugin_Build_VST=0 -DJucePlugin_Build_VST3=0 -DJucePlugin_Build_AU=0 -DJucePlugin_Build_AUv3=0 -DJucePlugin_Build_RTAS=0 -DJucePlugin_Build_AAX=0 -DJucePlugin_Build_Standalone=0
+JUCE_CFLAGS_LV2_PLUGIN := -fPIC -fvisibility=hidden
+JUCE_LDFLAGS_LV2_PLUGIN := -shared -Wl,--no-undefined
+JUCE_TARGET_LV2_PLUGIN := WaveNetVA.lv2/WaveNetVA.so
+
+OBJECTS_LV2_PLUGIN := \
+  $(JUCE_OBJDIR)/include_juce_audio_plugin_client_LV2_01234567.o \
+
+$(JUCE_OBJDIR)/include_juce_audio_plugin_client_LV2_01234567.o: ../../JuceLibraryCode/include_juce_audio_plugin_client_LV2.cpp
+	-$(V_AT)mkdir -p $(JUCE_OBJDIR)
+	@echo "Compiling include_juce_audio_plugin_client_LV2.cpp"
+	$(V_AT)$(CXX) $(JUCE_CXXFLAGS) $(JUCE_CPPFLAGS_LV2_PLUGIN) $(JUCE_CFLAGS_LV2_PLUGIN) -o "$@" -c "$<"
+
+$(JUCE_OUTDIR)/$(JUCE_TARGET_LV2_PLUGIN) : check-pkg-config $(OBJECTS_LV2_PLUGIN) $(RESOURCES) $(JUCE_OUTDIR)/$(JUCE_TARGET_SHARED_CODE)
+	-$(V_AT)mkdir -p $(dir $@)
+	@echo Linking "WaveNetVA - LV2 Plugin"
+	-$(V_AT)mkdir -p $(JUCE_BINDIR)
+	-$(V_AT)mkdir -p $(JUCE_LIBDIR)
+	-$(V_AT)mkdir -p $(JUCE_OUTDIR)
+	$(V_AT)$(CXX) -o $(JUCE_OUTDIR)/$(JUCE_TARGET_LV2_PLUGIN) $(OBJECTS_LV2_PLUGIN) $(JUCE_OUTDIR)/$(JUCE_TARGET_SHARED_CODE) $(JUCE_LDFLAGS) $(JUCE_LDFLAGS_LV2_PLUGIN) $(RESOURCES) $(TARGET_ARCH)
+
+$(JUCE_OUTDIR)/lv2-ttl-generator : ../../Thirdparty/lv2-ttl-generator/lv2_ttl_generator.c
+	@echo "Compiling lv2_ttl_generator"
+	$(V_AT)$(CXX) -O2 -g -o $@ $^ -ldl
+
+LV2 : $(JUCE_OUTDIR)/$(JUCE_TARGET_LV2_PLUGIN) $(JUCE_OUTDIR)/lv2-ttl-generator
+	@echo "Generating LV2 manifest"
+	(cd $(dir $(JUCE_OUTDIR)/$(JUCE_TARGET_LV2_PLUGIN)) && \
+	    $(realpath $(JUCE_OUTDIR))/lv2-ttl-generator $(realpath $(JUCE_OUTDIR))/$(JUCE_TARGET_LV2_PLUGIN))
+
+.PHONY: LV2
+
+-include $(OBJECTS_LV2_PLUGIN:%.o=%.d)

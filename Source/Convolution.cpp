@@ -79,11 +79,11 @@ void Convolution::processSingleSample(float* data, int i, int numSamples)
 {
     if (memory.size() != getFilterOrder())
         resetFifo();
-    std::vector<Eigen::RowVectorXf>::iterator fifo = memory.begin();
+    std::vector<Eigen::RowVectorXf, Eigen::aligned_allocator<Eigen::RowVectorXf>>::iterator fifo = memory.begin();
     for (int ch = 0; ch < inputChannels; ++ch)
         (*(fifo+pos))[ch] = data[idx(ch, i, numSamples)];
     outVec.setZero();
-    std::vector<Eigen::MatrixXf>::iterator it;
+    std::vector<Eigen::MatrixXf, Eigen::aligned_allocator<Eigen::MatrixXf>>::iterator it;
     int j = 0;
     for (it = kernel.begin(); it != kernel.end(); it++)
     {
