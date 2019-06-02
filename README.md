@@ -18,6 +18,7 @@ If you are interested in VST, check the [original repository](https://github.com
 * Open a terminal and visit the build directory: `cd Builds/LinuxMakefile`
 * Run the command: `make -f Makefile.LV2 CONFIG=Release`
 * Copy `build/WaveNetVA.lv2` into a LV2 path of your choice.
+Note that there also is a standalone version: build/WaveNetVA
 
 ### Loading trained models
 
