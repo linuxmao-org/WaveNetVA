@@ -14,7 +14,7 @@ These instructions are specific to a **LV2 build** realized by linuxmao.org.
 If you are interested in VST, check the [original repository](https://github.com/damskaggep/WaveNetVA).
 
 * Clone the repo.
-* Install development packages: eigen3 alsa freetype2 libcurl x11 xext xinerama libgl1-mesa xcursor xrandr
+* Install development packages: eigen3 alsa freetype2 libcurl x11 xext xinerama libgl1-mesa xcursor xrandr jack
 * Open a terminal and visit the build directory: `cd Builds/LinuxMakefile`
 * Run the command: `make -f Makefile.LV2 CONFIG=Release`
 * Copy `build/WaveNetVA.lv2` into a LV2 path of your choice.

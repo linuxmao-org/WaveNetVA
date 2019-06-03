@@ -18,6 +18,8 @@
 
 #define JucePlugin_LV2URI "https://github.com/linuxmao-org/WaveNetVA"
 
+#define JUCE_JACK_CLIENT_NAME JucePlugin_Name
+
 // [END_USER_CODE_SECTION]
 
 //==============================================================================
@@ -64,7 +66,7 @@
 #endif
 
 #ifndef    JUCE_JACK
- //#define JUCE_JACK 1
+ #define   JUCE_JACK 1
 #endif
 
 #ifndef    JUCE_USE_ANDROID_OPENSLES
